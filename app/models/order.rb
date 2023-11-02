@@ -9,7 +9,7 @@ class Order < ApplicationRecord
 
   def fee
     return amount * 0.01 if amount < 50
-    return amount * 0.0095 if amount >= 50 && amount <= 300
+    return amount * 0.0095 if amount < 300
 
     amount * 0.0085
   end

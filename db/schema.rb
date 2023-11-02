@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_30_232518) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_02_170703) do
   create_table "disbursements", force: :cascade do |t|
     t.decimal "net_amount", precision: 10, scale: 2
     t.decimal "collected_fee", precision: 10, scale: 2
     t.integer "merchant_id", null: false
+    t.string "reference"
     t.datetime "created_at"
     t.index ["merchant_id"], name: "index_disbursements_on_merchant_id"
   end
@@ -35,7 +36,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_232518) do
     t.boolean "disbursed", default: false
     t.integer "disbursement_id"
     t.decimal "collected_fee", precision: 10, scale: 2
-    t.decimal "net_amount", precision: 10, scale: 2
+    t.decimal "disbursed_amount", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["merchant_id"], name: "index_orders_on_merchant_id"

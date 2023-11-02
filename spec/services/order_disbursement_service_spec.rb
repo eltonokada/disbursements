@@ -6,7 +6,7 @@ require 'rails_helper'
 
 RSpec.describe OrderDisbursementService do
   let(:merchant) { FactoryBot.create(:merchant, disbursement_frequency: 'DAILY') }
-  let(:order) { FactoryBot.create(:order, merchant_id: merchant.id) }
+  let(:order) { FactoryBot.create(:order, merchant_id: merchant.id, amount: 500) }
   let(:orders) { FactoryBot.create_list(:order, 3, amount: 100, merchant_id: merchant.id) }
 
   describe '#calculate_disbursement' do
@@ -19,7 +19,20 @@ RSpec.describe OrderDisbursementService do
         gross_amount = orders.map(&:amount).sum
         net_amount = gross_amount - (gross_amount * 0.0095)
         OrderDisbursementService.new(merchant.id, orders).disburse
-        assert_equal net_amount, Disbursement.last.net_amount
+
+        expect(Disbursement.last.net_amount).to eq(net_amount)
+      end
+
+      it 'should update order net amount and fee' do
+        OrderDisbursementService.new(merchant.id, [order]).disburse
+
+        expect(order.reload.disbursed_amount).to eq(order.net_amount)
+        expect(order.reload.collected_fee).to eq(order.fee)
+      end
+
+      it 'should disburse order' do
+        OrderDisbursementService.new(merchant.id, [order]).disburse
+        expect(order.reload.disbursed).to eq(true)
       end
     end
 

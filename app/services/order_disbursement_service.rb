@@ -13,7 +13,7 @@ class OrderDisbursementService < BaseService
                                            collected_fee: @orders.sum(&:fee).round(2), reference: generate_reference)
       @orders.each do |order|
         @disbursement.orders << order
-        order.update!(disbursed: true, net_amount: order.net_amount, collected_fee: order.fee)
+        order.update!(disbursed: true, disbursed_amount: order.net_amount, collected_fee: order.fee)
       end
     end
   rescue ActiveRecord::RecordInvalid => e
