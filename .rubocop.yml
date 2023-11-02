@@ -7,3 +7,4 @@ Metrics/BlockLength:
     - '**/*.rake'
     - 'test/**/*.rb'
     - 'spec/**/*.rb'
+    - 'db/migrate/*.rb'

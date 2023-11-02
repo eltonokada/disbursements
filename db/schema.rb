@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_02_170703) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_02_194834) do
   create_table "disbursements", force: :cascade do |t|
     t.decimal "net_amount", precision: 10, scale: 2
     t.decimal "collected_fee", precision: 10, scale: 2
@@ -40,6 +40,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_02_170703) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["merchant_id"], name: "index_orders_on_merchant_id"
+  end
+
+  create_table "remaining_monthly_fees", force: :cascade do |t|
+    t.integer "merchant_id"
+    t.string "fee"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "disbursements", "merchants"

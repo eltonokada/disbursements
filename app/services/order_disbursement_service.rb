@@ -11,16 +11,22 @@ class OrderDisbursementService < BaseService
     ActiveRecord::Base.transaction do
       @disbursement = Disbursement.create!(merchant_id: @merchant_id, net_amount: @orders.sum(&:net_amount).round(2),
                                            collected_fee: @orders.sum(&:fee).round(2), reference: generate_reference)
-      @orders.each do |order|
-        @disbursement.orders << order
-        order.update!(disbursed: true, disbursed_amount: order.net_amount, collected_fee: order.fee)
-      end
+      disburse_orders
     end
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Error while creating disbursement: #{e.message}")
   end
 
   private
+
+  def disburse_orders
+    @orders.each do |order|
+      next if order.disbursed?
+
+      order.update!(disbursement_id: @disbursement.id, disbursed: true, disbursed_amount: order.net_amount.round(2),
+                    collected_fee: order.fee.round(2))
+    end
+  end
 
   def generate_reference
     "#{Date.current.strftime('%Y%m%d')}_#{SecureRandom.hex(4)}"

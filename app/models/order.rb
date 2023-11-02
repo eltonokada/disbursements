@@ -3,9 +3,12 @@
 # app/models/order.rb
 class Order < ApplicationRecord
   validates_presence_of :amount, :merchant_id
+
   belongs_to :merchant
   belongs_to :disbursement, optional: true
+
   scope :undisbursed, -> { where(disbursed: false) }
+  scope :disbursed, -> { where(disbursed: true) }
 
   def fee
     return amount * 0.01 if amount < 50
