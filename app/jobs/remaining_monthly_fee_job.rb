@@ -4,17 +4,16 @@
 class RemainingMonthlyFeeJob < ApplicationJob
   queue_as :default
 
-  def perform
+  def perform(current_date)
     Merchant.all.each do |merchant|
-      RemainingMonthlyFeeService.new(merchant).calculate
+      RemainingMonthlyFeeService.new(current_date, merchant).calculate
     end
   rescue StandardError => e
     Rails.logger.error("Error while calculating remaining monthly fees: #{e.message}")
   end
 
   def after_perform
-    Merchant.all.each do |merchant|
-      OrderDisbursementJob.perform(merchant.id, merchant.undisbursed_orders(current_date).pluck(:id))
-    end
+    DailyDisbursementJob.perform(current_date)
+    WeeklyDisbursementJob.perform(current_date)
   end
 end

@@ -5,7 +5,7 @@ class CreateRemainingMonthlyFees < ActiveRecord::Migration[7.1]
   def change
     create_table :remaining_monthly_fees do |t|
       t.integer :merchant_id
-      t.string :fee
+      t.decimal :fee, precision: 10, scale: 2
 
       t.timestamps
     end

@@ -10,7 +10,7 @@ class DailyDisbursementJob < ApplicationJob
       orders = merchant.daily_undisbursed_orders(current_date)
       next if orders.count.zero?
 
-      OrderDisbursementJob.perform_later(merchant.id, orders.pluck(:id))
+      OrderDisbursementJob.perform_later(current_date, merchant.id, orders.pluck(:id))
     end
   rescue StandardError => e
     Rails.logger.error("Error while calculating daily disbursement: #{e.message}")

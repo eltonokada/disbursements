@@ -28,4 +28,5 @@ class Merchant < ApplicationRecord
     collected_fee = orders.where('created_at BETWEEN ? AND ?', start_date, end_date).sum(:collected_fee)
     (minimum_monthly_fee - collected_fee).round(2)
   end
+
 end
