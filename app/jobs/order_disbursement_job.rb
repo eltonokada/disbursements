@@ -2,13 +2,12 @@
 
 # app/jobs/order_disbursement_job.rb
 class OrderDisbursementJob < ApplicationJob
-  def perform(merchant_id, orders)
-    Rails.logger.info("Calculating daily disbursement for #{orders.count} orders and merchant #{merchant_id}")
-    begin
-      OrderDisbursementService.new(merchant_id, orders).disburse
-    rescue StandardError => e
-      Rails.logger.error("Error while calculating daily disbursement: #{e.message}")
-    end
-    Rails.logger.info('Daily disbursement calculation finished')
+  queue_as :default
+
+  def perform(merchant_id, order_ids)
+    Rails.logger.info("Calculating daily disbursement for #{order_ids.count} orders and merchant #{merchant_id}")
+    OrderDisbursementService.new(merchant_id, order_ids).disburse
+  rescue StandardError => e
+    Rails.logger.error("Error while calculating daily disbursement: #{e.message}")
   end
 end

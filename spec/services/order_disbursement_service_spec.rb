@@ -13,26 +13,19 @@ RSpec.describe OrderDisbursementService do
   describe '#calculate_disbursement' do
     context 'when valid' do
       it 'creates a disbursement' do
-        expect { OrderDisbursementService.new(merchant.id, orders).disburse }.to change { Disbursement.count }.by(1)
+        expect { OrderDisbursementService.new(merchant.id, orders.pluck(:id)).disburse }.to change { Disbursement.count }.by(1)
       end
 
       it 'creates a disbursement with sum of orders net_amount' do
         gross_amount = orders.map(&:amount).sum
         net_amount = gross_amount - (gross_amount * 0.0095)
-        OrderDisbursementService.new(merchant.id, orders).disburse
+        OrderDisbursementService.new(merchant.id, orders.pluck(:id)).disburse
 
         expect(Disbursement.last.net_amount).to eq(net_amount)
       end
 
-      it 'should update order net amount and fee' do
-        OrderDisbursementService.new(merchant.id, [order]).disburse
-
-        expect(order.reload.disbursed_amount).to eq(order.net_amount)
-        expect(order.reload.collected_fee).to eq(order.fee)
-      end
-
       it 'should disburse order' do
-        OrderDisbursementService.new(merchant.id, [order]).disburse
+        OrderDisbursementService.new(merchant.id, [order.id]).disburse
         expect(order.reload.disbursed).to eq(true)
       end
 

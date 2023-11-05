@@ -2,13 +2,16 @@
 
 # app/services/order_disbursement_service.rb
 class OrderDisbursementService < BaseService
-  def initialize(merchant_id, orders)
-    @orders = orders
+  def initialize(merchant_id, order_ids)
+    @order_ids = order_ids
     @merchant_id = merchant_id
   end
 
   def disburse
+    Rails.logger.info("Disburse method for #{@order_ids.count} orders and merchant #{@merchant_id}")
+
     ActiveRecord::Base.transaction do
+      @orders = Order.where(id: @order_ids)
       @disbursement = Disbursement.create!(merchant_id: @merchant_id, net_amount: @orders.sum(&:net_amount).round(2),
                                            collected_fee: @orders.sum(&:fee).round(2), reference: generate_reference)
       disburse_orders
@@ -20,12 +23,7 @@ class OrderDisbursementService < BaseService
   private
 
   def disburse_orders
-    @orders.each do |order|
-      next if order.disbursed?
-
-      order.update!(disbursement_id: @disbursement.id, disbursed: true, disbursed_amount: order.net_amount.round(2),
-                    collected_fee: order.fee.round(2))
-    end
+    Order.where(id: @orders.map(&:id)).update_all(disbursed: true, disbursement_id: @disbursement.id)
   end
 
   def generate_reference

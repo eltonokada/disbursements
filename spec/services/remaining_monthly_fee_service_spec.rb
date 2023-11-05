@@ -5,10 +5,10 @@
 require 'rails_helper'
 
 RSpec.describe RemainingMonthlyFeeService do
-  let(:merchant) { FactoryBot.create(:merchant_with_195_remaining_monthly_fee) }
-  let(:merchant_without_remaining_fee) { FactoryBot.create(:merchant_without_remaining_fee) }
 
   describe '#calculate' do
+    let(:merchant) { FactoryBot.create(:merchant_with_195_remaining_monthly_fee) }
+    let(:merchant_without_remaining_fee) { FactoryBot.create(:merchant_without_remaining_fee) }
     context 'when valid' do
       it 'creates a monthly fee when minimum monthly fee not achieved' do
         RemainingMonthlyFeeService.new(merchant).calculate
