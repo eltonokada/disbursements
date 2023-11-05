@@ -22,24 +22,6 @@ class OrderDisbursementService < BaseService
     Rails.logger.error("Error while creating disbursement: #{e.message}")
   end
 
-  def self.fetch_daily_undisbursed_orders(current_date)
-    Order.joins(:merchant)
-         .where(merchants: { disbursement_frequency: 'daily' })
-         .undisbursed
-         .where(created_at: (current_date - 1.day).all_day)
-  end
-
-  def self.fetch_weekly_undisbursed_orders(current_date)
-    start_date = current_date - 7.days
-    end_date = current_date - 1.day
-
-    Order.joins(:merchant)
-         .where(merchants: { disbursement_frequency: 'weekly' })
-         .where('EXTRACT(DOW FROM live_on) = ?', current_date.wday)
-         .undisbursed
-         .where('orders.created_at BETWEEN ? AND ?', start_date.beginning_of_day, end_date.end_of_day)
-  end
-
   private
 
   def disburse_orders

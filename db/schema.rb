@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_02_194834) do
 
   create_table "remaining_monthly_fees", force: :cascade do |t|
     t.integer "merchant_id"
-    t.decimal "collected_fee", precision: 10, scale: 2
+    t.decimal "fee", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

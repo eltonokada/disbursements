@@ -5,6 +5,7 @@ class RemainingMonthlyFeeJob < ApplicationJob
   queue_as :default
 
   def perform(current_date)
+    Rails.logger.info("Calculating remaining monthly fees for #{current_date}")
     Merchant.all.each do |merchant|
       RemainingMonthlyFeeService.new(current_date, merchant).calculate
     end

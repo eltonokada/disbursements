@@ -26,7 +26,8 @@ class Merchant < ApplicationRecord
     end_date = Date.today.prev_month.end_of_month
 
     collected_fee = orders.where('created_at BETWEEN ? AND ?', start_date, end_date).sum(:collected_fee)
+
+    # Calculate and round the remaining monthly fees
     (minimum_monthly_fee - collected_fee).round(2)
   end
-
 end

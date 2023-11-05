@@ -3,7 +3,7 @@
 require 'csv'
 
 # lib/tasks/import_merchants.rake
-namespace :custom_tasks do
+namespace :sequra do
   # this tasks should run daily
   desc 'Import Merchants'
   task import_merchants: [:environment] do

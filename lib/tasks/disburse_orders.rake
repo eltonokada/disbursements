@@ -3,7 +3,7 @@
 require 'csv'
 # This task disburse orders base in merchant disbursement frequency
 # lib/tasks/import_merchants.rake
-namespace :custom_tasks do
+namespace :sequra do
   desc 'Create previous Disbursements'
   task disburse_orders: [:environment] do
     current_date = Date.today

@@ -5,41 +5,54 @@ Disbursement calculation of merchants disbursements payouts
 
 ## Usage
 
-  Install Ruby 3.1.2 - you can use rbenv, or rvm as a ruby version manager to install.
-  Copy the content of the application, or clone the repository
-  Go to root directory of the application and run 
-  ```
-    bundle install 
+Install Ruby 3.1.2 - you can use rbenv, or rvm as a ruby version manager to install.
+Copy the content of the application, or clone the repository
 
-  to install required dependencies
-  Edit config/database.yml with your database data.
+Installing dependencies: go to the root directory off the application and run:
+
+```
+  bundle install 
+```
+
+Edit config/database.yml with your database data.
+
   Create databases running 
   ```
     rake db:create 
     rake db:migrate
-
+  ```
+  Import data
+  ```
+    rake sequra:import_orders
+    rake sequra:import_merchants
+  ```
   The application is using whenever gem to schedule the rake task run_disbursement, actually the task will run every day at 00:00AM, it can be changed in config/schedule.rb
 
   You can view the schedule running 
 
   ```
     bundle exec whenever
+  ```
 
   To update the crontab:
   ```
     whenever --update-crontab 
+  ```    
   
   To run tests go to application root and run 
 
   ```
-    rspec.
+    rspec
+  ```    
   
 ## Application summary
   The application consists of a main rake task 
-    ```
-      rake custom_tasks:disburse_orders
+  ```
+    rake sequra:disburse_orders
+  ```
+  This task is scheduled to run everyday at 00:00AM
   
-  that handle the execution of 3 main jobs:
+  That handle the execution of 3 jobs:
     
   - DailyDisbursmentJob
     Handle orders from merchants configured as daily disbursement frequency
@@ -59,11 +72,16 @@ Disbursement calculation of merchants disbursements payouts
 
 ## Improvements and decisions
 
-  We can analyze the way that the application is getting merchant orders, sometimes, using raw SQL queries might be faster, i understand that is not the most elegant solution, but in some cases might be necessary.
+  We should analyze the way that the application is getting merchant orders, sometimes, using raw SQL queries might be faster, i understand that is not the most elegant solution, but in some cases might be necessary. So, this is a possible improvement. My suggestion is to do tests with more data, so we can measure how fast queries can be.
+
   The calculation of order fees are directly in a order method, we can move this to be done directly in database as SQL, also needs to some load testing.
   
-  We can just have one single job that handle daily and weekly jobs, we have a few code that is being repeated in this 2 jobs, but as the other options, need to study. We can have one single query that handle with this data, but, from an other point of view, having 2 jobs might be easier to understand and debug if needed, although each disbursement operation is being enqueued.
+  We can just have one single job that handle daily and weekly jobs, we have a few code that is being repeated in this 2 jobs, but as the other options, need to investigate it further. 
+  
+  We can have one single query that handle with this data, but, from an other point of view, having 2 jobs might be easier to understand and debug if needed, although each disbursement operation is being enqueued.
+
   Also need to add tests for the logic os jobs execution, actually this was tested manually.
+
 
 ## Disbursed data from csv
 

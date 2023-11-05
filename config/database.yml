@@ -9,17 +9,9 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
-# development:
-#   <<: *default
-#   database: storage/development.sqlite3
-
 development:
-  database: sequra
-  adapter: postgresql
-  username: elton
-  password: 
-  port:    5432
-  host:    127.0.0.1 
+  <<: *default
+  database: storage/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
