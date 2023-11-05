@@ -104,6 +104,8 @@ Edit config/database.yml with your database data.
   The calculation of order fees are directly in a order method, we can move this to be done directly in database as SQL, also needs to some load testing.
   
   We can just have one single job that handle daily and weekly jobs, we have a few code that is being repeated in this 2 jobs, but as the other options, need to investigate it further. 
+
+  Right now, we have 2 jobs, one for merchants with daily disbursement frequency, and the other for merchants with weekly disbursement frequency. So they are enqueued separatelly, and in cases that we can have more types of merchants, we can create different jobs, as an improvement, if needed we can create a base class that will have methods that should be inherited by child jobs, but this is just an idea for now, if needed.
   
   We can have one single query that handle with this data, but, from an other point of view, having 2 jobs might be easier to understand and debug if needed, although each disbursement operation is being enqueued.
 
