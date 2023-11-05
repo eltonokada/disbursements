@@ -7,10 +7,10 @@ class WeeklyDisbursementJob < ApplicationJob
   def perform(current_date)
     Rails.logger.info("Calculating weekly disbursement for #{current_date}")
     Merchant.weekly_disbursement.live_on_weekday_match(current_date.wday).each do |merchant|
-      orders = past_week_undisbursed_orders(current_date)
+      orders = merchant.past_week_undisbursed_orders(current_date)
       next if orders.count.zero?
 
-      OrderDisbursementJob.perform_later(merchant.id,
+      OrderDisbursementJob.perform_later(current_date, merchant.id,
                                          orders.pluck(:id))
     end
   rescue StandardError => e

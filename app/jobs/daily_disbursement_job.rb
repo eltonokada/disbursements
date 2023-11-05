@@ -7,7 +7,7 @@ class DailyDisbursementJob < ApplicationJob
   def perform(current_date)
     Rails.logger.info("Calculating daily disbursement for #{current_date}")
     Merchant.daily_disbursement.each do |merchant|
-      orders = merchant.daily_undisbursed_orders(current_date)
+      orders = merchant.past_day_undisbursed_orders(current_date)
       next if orders.count.zero?
 
       OrderDisbursementJob.perform_later(current_date, merchant.id, orders.pluck(:id))

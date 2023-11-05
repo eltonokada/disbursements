@@ -60,6 +60,7 @@ Edit config/database.yml with your database data.
   ```
     rake sequra:disburse_imported_data
   ```
+  In my local environment this task that disburse orders from previous dates took 5 minutes to finish.
 
 ## Application summary
   The application consists of a main rake task 
@@ -86,10 +87,13 @@ Edit config/database.yml with your database data.
   These 2 services are in app/services
 
   Models:
+
   Merchant
   Order
   Disbursement
-
+  
+  A creation of a disbursement item would be considered, but for now, only disbursement is enough, as we have methods in order that handle the fee calculation.
+  A thing to be considered if needed.
 ## Improvements and decisions
 
   We should analyze the way that the application is getting merchant orders, sometimes, using raw SQL queries might be faster, i understand that is not the most elegant solution, but in some cases might be necessary. So, this is a possible improvement. My suggestion is to do tests with more data, so we can measure how fast queries can be.
