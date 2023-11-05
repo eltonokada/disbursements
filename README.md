@@ -91,7 +91,7 @@ Edit config/database.yml with your database data.
   Merchant
   Order
   Disbursement
-  
+
   A creation of a disbursement item would be considered, but for now, only disbursement is enough, as we have methods in order that handle the fee calculation.
   A thing to be considered if needed.
 ## Improvements and decisions
@@ -115,4 +115,4 @@ Edit config/database.yml with your database data.
 | Year | Number of disbursements | Amount disbursed to merchants | Amount of order fees |  No of monthly fees charged(From minimum monthly fee)|Amount of monthly fee charged (From minimum monthly fee)
 |------|-------------------------|-------------------------------| -------------------- |------------------------------------------------------|--------------------------------------------------------
 | 2022 | 1435                    | 16.121.678,41€                | 149.967,98€          | 3808                                                 | 82.110,00€
-| 2023 | 995                     | 17.038.683,80€                | 156.617,93           | 1248                                                 | 26.910,00 €
+| 2023 | 995                     | 17.038.683,80€                | 156.617,93€          | 1248                                                 | 26.910,00 €
