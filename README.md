@@ -24,15 +24,15 @@ Disbursement calculation of merchants disbursements payouts
 
   ```
     bundle exec whenever
-  
-  
-  ``` whenever --update-crontab 
-  
-  to add to crontab
 
+  To update the crontab:
+  ```
+    whenever --update-crontab 
+  
   To run tests go to application root and run 
 
-  ``` rspec.
+  ```
+    rspec.
   
 ## Application summary
   The application consists of a main rake task 
