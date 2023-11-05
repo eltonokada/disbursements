@@ -1,9 +1,9 @@
 # README
 
-= Disbursement calculation of merchants disbursements payouts
+Disbursement calculation of merchants disbursements payouts
   This application is responsible to create disbursements based in merchants disbursement frequency, considering the fees that needs to be collected by seQura and the orders amounts.
 
-= Usage
+# USAGE
 
   Install Ruby 3.1.2 - you can use rbenv, or rvm as a ruby version manager to install.
   Copy the content of the application, or clone the repository
@@ -19,7 +19,7 @@
 
   To run tests go to application root and run rspec.
   
-= Application
+# Application
   The application consists of a main rake task that handle the execution of the 3 main jobs:
     rake custom_tasks:disburse_orders
     
@@ -34,7 +34,7 @@
 
   As we might have a huge number of others, the application also have a OrderDisbursementJob, that will be called in each merchant iteration, and will enqueue in sidekiq each disbursement operation, with this the application can scale horizontally if needed, adding as much workers as needed to handle the amount of orders.
 
-  Improvements
+# Improvements
 
   We can analyze the way that the application is getting merchant orders, sometimes, using raw SQL queries might be faster, i understand that is not the most elegant solution, but in some cases might be necessary.
   The calculation of order fees are directly in a order method, we can move this to be done directly in database as SQL, also needs to some load testing.
@@ -42,7 +42,7 @@
   Also need to add tests for the logic os jobs execution, actually this was tested manually.
 
 
-Year | Number of disbursements | Amount disbursed to merchants | Amount of order fees |  Number of monthly fees charged(From minimum monthly fee) |  Amount of monthly fee charged (From minimum monthly fee)
-
-2022 | 1435 | 16.121.678,41€ | 149.967,98€  | 3808,00€ | 82.110,00€
-2023 | 995 |  17.038.683,80€ | 156.617,93  | 1248,00€ | 26.910,00 €
+| Year | Number of disbursements | Amount disbursed to merchants | Amount of order fees |  No of monthly fees charged(From minimum monthly fee)|Amount of monthly fee charged (From minimum monthly fee)
+|------|-------------------------|-------------------------------| -------------------- |------------------------------------------------------|--------------------------------------------------------
+| 2022 | 1435                    | 16.121.678,41€                | 149.967,98€          | 3808,00€                                             | 82.110,00€
+| 2023 | 995                     | 17.038.683,80€                | 156.617,93           | 1248,00€                                             | 26.910,00 €
