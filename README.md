@@ -1,7 +1,10 @@
 # README
 
-Disbursement calculation of merchants disbursements payouts
-  This application is responsible to create disbursements based in merchants disbursement frequency, considering the fees that needs to be collected by seQura and the orders amounts.
+seQura provides e-commerce shops with a flexible payment method that allows shoppers to split their purchases in three months without any cost. In exchange, seQura earns a fee for each purchase.
+
+When shoppers use this payment method, they pay directly to seQura. Then, seQura disburses the orders to merchants with different frequencies and pricing.
+
+This challenge is about implementing the process of paying merchants.
 
 ## Usage
 
