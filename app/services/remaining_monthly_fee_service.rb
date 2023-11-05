@@ -24,6 +24,6 @@ class RemainingMonthlyFeeService < BaseService
     collected_fee = @merchant.orders.where('created_at BETWEEN ? AND ?', start_date, end_date).sum(:collected_fee)
 
     # Calculate and round the remaining monthly fees
-    (minimum_monthly_fee - collected_fee).round(2)
+    (@merchant.minimum_monthly_fee - collected_fee).round(2)
   end
 end

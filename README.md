@@ -45,6 +45,22 @@ Edit config/database.yml with your database data.
     rspec
   ```    
   
+  The application needs Sidekiq and Redis up and running, to manage the process queues
+  Go to root directory
+
+  ```
+    bundle exec sidekiq -C config/sidekiq.yml
+  ```
+  Open another terminal
+  ```
+    redis-server
+  ```
+
+  To generate the results for the imported data, we have a task that handle this for all previous dates.
+  ```
+    rake sequra:disburse_imported_data
+  ```
+
 ## Application summary
   The application consists of a main rake task 
   ```
@@ -63,7 +79,11 @@ Edit config/database.yml with your database data.
 
   Application is using Sidekiq/Redis to handle the jobs processing.
 
-  As we might have a huge number of others, the application also have a OrderDisbursementJob, that will be called in each merchant iteration, and will enqueue in sidekiq each disbursement operation, with this the application can scale horizontally if needed, adding as much workers as needed to handle the amount of orders.
+  As we might have a huge number of others, the application also have a OrderDisbursementJob, that will be called in each merchant iteration, and will enqueue in sidekiq each disbursement operation, sending to OrderDisbursmentService, with this the application can scale horizontally if needed, adding as much workers as needed to handle the amount of orders.
+
+  For remaining monthly fees calculation we have RemainingMonthlyFeeService.
+
+  These 2 services are in app/services
 
   Models:
   Merchant
@@ -81,7 +101,9 @@ Edit config/database.yml with your database data.
   We can have one single query that handle with this data, but, from an other point of view, having 2 jobs might be easier to understand and debug if needed, although each disbursement operation is being enqueued.
 
   Also need to add tests for the logic os jobs execution, actually this was tested manually.
-
+  
+  Add more logging error treatment to the application in general, need to investigate it further the possible error points
+  Add more tests to the application in general, need to explore possible situations.
 
 ## Disbursed data from csv
 
