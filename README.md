@@ -25,6 +25,7 @@ Edit config/database.yml with your database data.
     rake db:migrate
   ```
   Import data
+  Download merchants.csv and orders.csv to lib/assets folder before import.
   ```
     rake sequra:import_orders
     rake sequra:import_merchants
