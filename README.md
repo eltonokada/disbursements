@@ -1,8 +1,8 @@
 # README
 
-seQura provides e-commerce shops with a flexible payment method that allows shoppers to split their purchases in three months without any cost. In exchange, seQura earns a fee for each purchase.
+Provider provides e-commerce shops with a flexible payment method that allows shoppers to split their purchases in three months without any cost. In exchange, seQura earns a fee for each purchase.
 
-When shoppers use this payment method, they pay directly to seQura. Then, seQura disburses the orders to merchants with different frequencies and pricing.
+When shoppers use this payment method, they pay directly. Then, disburses the orders to merchants with different frequencies and pricing.
 
 This challenge is about implementing the process of paying merchants.
 
