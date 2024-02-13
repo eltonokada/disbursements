@@ -1,6 +1,6 @@
 # README
 
-Provider provides e-commerce shops with a flexible payment method that allows shoppers to split their purchases in three months without any cost. In exchange, seQura earns a fee for each purchase.
+Provider provides e-commerce shops with a flexible payment method that allows shoppers to split their purchases in three months without any cost. In exchange, provider earns a fee for each purchase.
 
 When shoppers use this payment method, they pay directly. Then, disburses the orders to merchants with different frequencies and pricing.
 
@@ -27,8 +27,8 @@ Edit config/database.yml with your database data.
   Import data
   Merchants.csv and orders.csv are in  lib/assets folder before import.
   ```
-    rake sequra:import_orders
-    rake sequra:import_merchants
+    rake import_orders
+    rake import_merchants
   ```
   The application is using whenever gem to schedule the rake task run_disbursement, actually the task will run every day at 00:00AM, it can be changed in config/schedule.rb
 
@@ -62,14 +62,14 @@ Edit config/database.yml with your database data.
 
   To generate the results for the imported data, we have a task that handle this for all previous dates.
   ```
-    rake sequra:disburse_imported_data
+    rake disburse_imported_data
   ```
   In my local environment this task that disburse orders from previous dates took 5 minutes to finish.
 
 ## Application summary
   The application consists of a main rake task 
   ```
-    rake sequra:disburse_orders
+    rake disburse_orders
   ```
   This task is scheduled to run everyday at 00:00AM
   
